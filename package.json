@@ -1,0 +1,50 @@
+{
+  "name": "parse-server-example",
+  "version": "3.0.0",
+  "description": "An example implementation of Parse Server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parse-community/parse-server-example"
+  },
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "nyc --reporter=html --reporter=text npm test",
+    "lint": "eslint --cache ./cloud && eslint --cache index.js && eslint --cache ./spec",
+    "lint-fix": "eslint --cache --fix ./cloud && eslint --cache --fix index.js && eslint --cache --fix ./spec",
+    "prettier": "prettier --write '{cloud,spec}/{**/*,*}.js' 'index.js'",
+    "start": "nodemon server/index.js",
+    "pretest": "cross-env MONGODB_VERSION=${MONGODB_VERSION:=7.0.1} MONGODB_TOPOLOGY=${MONGODB_TOPOLOGY:=standalone} mongodb-runner start -t ${MONGODB_TOPOLOGY} --version ${MONGODB_VERSION} -- --port 27017",
+    "test": "TESTING=true jasmine",
+    "posttest": "mongodb-runner stop --all",
+    "watch": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "4.21.2",
+    "parse": "^6.1.0",
+    "parse-dashboard": "^6.2.0",
+    "parse-server": "8.0.1"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@babel/eslint-parser": "7.26.10",
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/commit-analyzer": "13.0.1",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "11.0.1",
+    "@semantic-release/npm": "12.0.1",
+    "@semantic-release/release-notes-generator": "14.0.3",
+    "cross-env": "7.0.3",
+    "eslint": "9.22.0",
+    "jasmine": "5.6.0",
+    "mongodb-runner": "5.8.0",
+    "nodemon": "3.1.9",
+    "nyc": "17.1.0",
+    "prettier": "3.5.3",
+    "semantic-release": "24.2.3"
+  },
+  "engines": {
+    "node": ">=18.20.4 <19.0.0 || >=20.18.0 <21.0.0 || >=22.12.0 <23.0.0"
+  }
+}
