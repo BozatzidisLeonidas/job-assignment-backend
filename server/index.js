@@ -45,13 +45,8 @@ app.get('/getAllLandmarks', async (req, res) => {
     const landmarks = await Parse.Cloud.run('getAllLandmarks');
     res.status(200).json(landmarks);
   } catch (error) {
-    console.error('Error calling getLandmarks cloud function:', error);
-    if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
-      res.status(404).send('Landmarks not found');
-    } else {
-      // For other errors, return 500
-      res.status(500).send('Error fetching landmarks');
-    }
+    console.error('Error calling getAllLandmarks cloud function:', error);
+    res.status(500).json({ error: 'Error fetching landmarks' });
   }
 });
 
@@ -71,23 +66,24 @@ app.get('/getLandmarkByOrder', async (req, res) => {
 
     res.status(200).json(landmark);
   } catch (error) {
-    console.error(`Error calling getLandmarkByOrder cloud function:`, error);
+    console.error('Error calling getLandmarkByOrder cloud function:', error);
     res.status(500).json({ error: 'Error fetching landmark' });
   }
 });
 
 app.get('/searchLandmarks', async (req, res) => {
   try {
-    const query = req.query.q; // Get search query from frontend
-
-    if (!query) {
-      return res.status(400).json({ error: 'Search query is required' });
+    const { searchText } = req.query;
+    if (!searchText) {
+      return res.status(400).json({ error: 'Missing order parameter' });
     }
-
-    const results = await Parse.Cloud.run('searchLandmarks', { query });
-    res.status(200).json(results);
+    const landmarksMatching = await Parse.Cloud.run('searchLandmarks', { searchText: String(searchText) })
+    if (!landmarksMatching) {
+      return res.status(404).json({ error: `No landmark found that contains ${searchText}`});
+    }
+    res.status(200).json(landmarksMatching);
   } catch (error) {
-    console.error('Error calling searchLandmarks:', error);
+    console.error('Error calling searchLandmarks cloud function:', error);
     res.status(500).json({ error: 'Error searching landmarks' });
   }
 });
