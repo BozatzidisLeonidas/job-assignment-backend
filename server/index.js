@@ -9,6 +9,8 @@ import { setupDashboard } from '../dashboard/parseDashboard.js';
 
 const app = express();
 
+app.use(express.json());
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -50,9 +52,9 @@ app.get('/getAllLandmarks', async (req, res) => {
   }
 });
 
-app.get('/getLandmarkByOrder', async (req, res) => {
+app.post('/getLandmarkByOrder', async (req, res) => {
   try {
-    const order = req.query.order;
+    const order = req.body.order;
 
     if (!order) {
       return res.status(400).json({ error: 'Missing order parameter' });
