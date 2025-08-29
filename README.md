@@ -1,6 +1,9 @@
 # Backend Development Server
 
-Welcome to the backend server setup guide! This project serves as the backend for a Node.js application that interfaces with MongoDB. Please follow the steps below to set up and run the server locally.
+Welcome to the backend server setup guide! This project serves as the backend for a Node.js application that interfaces with MongoDB. Please follow the steps below to set up and run the server locally. 
+🔑 Environment Variables
+To run this project, you will need to create a .env file in the root directory.
+⚠️ Example values are not included for security reasons. If you want a working .env file to run the project, feel free to contact me.
 
 ## Prerequisites
 
