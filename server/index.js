@@ -7,15 +7,17 @@ import { initializeParse } from '../config/parseConfig.js';
 import { setupParseServer } from './parseServer.js';
 import { setupDashboard } from '../dashboard/parseDashboard.js';
 
-const app = express();
+const app = express(); //Neo object, initialize and return. Creates an 'app' object with each own methods like app.get() / app.post() etc.
 
-app.use(express.json());
+app.use(express.json()); // Use express.json middleware wste na mporei na ginoyn parse ta JSON data apo to req.body. Ara na mporw na diavasw data poy 
+//erxontai apo POST, PUT, or PATCH requests apo ton client sto server. 
 
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  origin: '*',//Apo poy na dexesai request, edw isws einai lathos giati toy eipa apo pantoy, 'http://localhost:4200' swsto..?
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],//Poia request na dexesai
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allows requests that specify the format of the data, Allows requests that include authentication tokens
+})); // Middleware (npm install), gia security reasons. Epitrepei thn epikoinwnia meta3y front end kai backend otan einai se diaforetika ports (4200/5000)
+//an den to eixa kanei install tha ekana ena request, tha epairna ena response ma o browser tha to blockare gia security reasons
 
 // Initialize Parse
 initializeParse();
@@ -23,9 +25,9 @@ initializeParse();
 // Setup Parse Server
 const server = await setupParseServer();
 
-// Serve the Parse API on the /parse URL prefix
-const mountPath = process.env.PARSE_MOUNT || '/parse';
-app.use(mountPath, server.app);
+// Serve the Parse API on the /parse URL prefix-> NOT USED IN CURRENT SETUP 
+const mountPath = process.env.PARSE_MOUNT || '/parse'; // const mountPath = /parse always in this setup
+app.use(mountPath, server.app); //
 
 // Setup Parse Dashboard
 const dashboard = setupDashboard();

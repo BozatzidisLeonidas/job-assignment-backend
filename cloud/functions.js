@@ -44,6 +44,7 @@ Parse.Cloud.define('getLandmarkByOrder', async (request) => {
       return { success: false, errorMessage: `No landmark found with order ${order}.` };
     }
 
+    console.log(landmark.attributes)
     const photo = landmark.get('photo');
     const photoThumb = landmark.get('photo_thumb');
 
@@ -61,7 +62,7 @@ Parse.Cloud.define('getLandmarkByOrder', async (request) => {
   } catch (error) {
     console.error(`Error fetching landmark with order ${request.params.order}:`, error);
     return { success: false, errorMessage: `Error fetching landmark with order ${request.params.order}: ${error.message}` };
-  }  
+  }
 });
 
 Parse.Cloud.define('searchLandmarks', async (request) => {
@@ -69,7 +70,7 @@ Parse.Cloud.define('searchLandmarks', async (request) => {
     const { searchText } = request.params;
     if (!searchText) {
       console.error('Search Text Parameter is required.')
-      return { success: false, errorMessage: 'Search Text Parameter is required.'};
+      return { success: false, errorMessage: 'Search Text Parameter is required.' };
     }
     const query = new Parse.Query('Landmark').matches('title', searchText, 'i');
     const results = await query.find();
@@ -88,3 +89,7 @@ Parse.Cloud.define('searchLandmarks', async (request) => {
 })
 
 
+/*he .map() function is a method in JavaScript that creates a new array 
+Giati cloud functions over aplh JS?
+Epeidh einai integrated mporw na xrhsimopoihsw Parse Querys poy exoyn apo mona toys pagination,security(role-based access),data validation,Session Handling.
+As your app grows, Parse Server can handle traffic spikes, optimize database queries, and scale the backend automatically.*/
